@@ -1,0 +1,2 @@
+netty=com.mysql.to.elastic.remoting.transport.netty.client.NettyRpcClient
+socket=com.mysql.to.elastic.remoting.transport.socket.SocketRpcClient

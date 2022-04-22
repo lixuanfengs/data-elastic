@@ -1,0 +1,1 @@
+loadBalance=com.mysql.to.elastic.loadbalance.loadbalancer.ConsistentHashLoadBalance

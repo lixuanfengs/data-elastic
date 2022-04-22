@@ -1,0 +1,3 @@
+kyro=com.mysql.to.elastic.serializer.kyro.KryoSerializer
+protostuff=com.mysql.to.elastic.serializer.protostuff.ProtostuffSerializer
+hessian=com.mysql.to.elastic.serializer.hessian.HessianSerizalizer

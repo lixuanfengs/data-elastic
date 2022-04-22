@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mysql.to.elastic.mapper.InstrumentMapper">
+
+    <select id="selectListInstrument" resultType="com.mysql.to.elastic.entity.Instrument">
+     SELECT
+        nsi.id AS id,
+        nsi.cname AS cname,
+        nsi.SUBJECT AS subjects,
+        nsi.ename AS ename,
+        ni.ins_name AS insName ,
+        cast( nsi.instr_belongs_type AS CHAR ) AS instrBelongsType,
+        nsi.instr_belongs_id AS instrBelongsId,
+        nsi.instr_belongs_name AS instrBelongsName,
+        nsi.instr_category AS instrCategory,
+        nc.ins_main_type AS insMainType,
+        nc.ins_middle_type AS insMiddleType,
+        nc.ins_sub_type AS insSubType,
+        nsi.worth AS worth,
+        nn.nation AS nation,
+        nsi.manufacturer AS manuFacturer,
+        nsi.begin_date AS beginDate,
+        nsi.instr_version AS instrVersion,
+        nsi.technical AS technical,
+        nsi.FUNCTION AS functioni,
+        nsi.run_machine AS runMachine,
+        nsi.service_content AS serviceContent,
+        nsi.achievement AS achieveMent,
+        na.attach_url AS image,
+        nsi.requirement AS requireMent,
+        nsi.fee AS fee,
+        nsi.service_url AS serviceUrl,
+        nlc.province AS province,
+        nlc.city AS city,
+        nlc.county AS county,
+        nsi.location AS location,
+        nsi.postalcode AS postalCode,
+        nsi.contact AS contact,
+        nsi.phone AS phone,
+        nsi.email AS email,
+        nsi.address AS address,
+        nsi.lat AS lat,
+        nsi.lng AS lng,
+        ngt2.VALUE AS instruType,
+        ngt5.VALUE AS instrSource
+    FROM
+        nstr_single_instrument nsi
+        LEFT JOIN nstr_institution ni ON nsi.ins = ni.ins_id
+        LEFT JOIN nstr_location_code nlc ON nsi.location_code = nlc.location_code
+        LEFT jOIN nstr_nation nn ON nsi.nation = nn.nation_code
+        LEFT JOIN nstr_category nc ON nsi.instr_category = nc.categoryId
+        LEFT JOIN nstr_global_type ngt2 ON nsi.instru_type = ngt2.id
+        LEFT JOIN nstr_global_type ngt5 ON nsi.instr_source = ngt5.id
+        LEFT JOIN nstr_attachment na ON nsi.image = na.attach_id
+    WHERE
+        nsi.worth >= 50
+        AND nsi.audit_status = 1
+        AND na.attach_url != ''
+    GROUP BY
+        nsi.id
+    limit 50000
+    </select>
+
+    <select id="selectByPage" resultType="com.mysql.to.elastic.entity.Instrument">
+     SELECT
+        nsi.id AS id,
+        nsi.cname AS cname,
+        nsi.SUBJECT AS subjects,
+        nsi.ename AS ename,
+        ni.ins_name AS insName ,
+        cast( nsi.instr_belongs_type AS CHAR ) AS instrBelongsType,
+        nsi.instr_belongs_id AS instrBelongsId,
+        nsi.instr_belongs_name AS instrBelongsName,
+        nsi.instr_category AS instrCategory,
+        nc.ins_main_type AS insMainType,
+        nc.ins_middle_type AS insMiddleType,
+        nc.ins_sub_type AS insSubType,
+        nsi.worth AS worth,
+        nn.nation AS nation,
+        nsi.manufacturer AS manuFacturer,
+        nsi.begin_date AS beginDate,
+        nsi.instr_version AS instrVersion,
+        nsi.technical AS technical,
+        nsi.FUNCTION AS functioni,
+        nsi.run_machine AS runMachine,
+        nsi.service_content AS serviceContent,
+        nsi.achievement AS achieveMent,
+        na.attach_url AS image,
+        nsi.requirement AS requireMent,
+        nsi.fee AS fee,
+        nsi.service_url AS serviceUrl,
+        nlc.province AS province,
+        nlc.city AS city,
+        nlc.county AS county,
+        nsi.location AS location,
+        nsi.postalcode AS postalCode,
+        nsi.contact AS contact,
+        nsi.phone AS phone,
+        nsi.email AS email,
+        nsi.address AS address,
+        nsi.lat AS lat,
+        nsi.lng AS lng,
+        ngt2.VALUE AS instruType,
+        ngt5.VALUE AS instrSource
+    FROM
+        nstr_single_instrument nsi
+        LEFT JOIN nstr_institution ni ON nsi.ins = ni.ins_id
+        LEFT JOIN nstr_location_code nlc ON nsi.location_code = nlc.location_code
+        LEFT jOIN nstr_nation nn ON nsi.nation = nn.nation_code
+        LEFT JOIN nstr_category nc ON nsi.instr_category = nc.categoryId
+        LEFT JOIN nstr_global_type ngt2 ON nsi.instru_type = ngt2.id
+        LEFT JOIN nstr_global_type ngt5 ON nsi.instr_source = ngt5.id
+        LEFT JOIN nstr_attachment na ON nsi.image = na.attach_id
+    WHERE
+        nsi.worth >= 50
+        AND nsi.audit_status = 1
+        AND na.attach_url != ''
+    GROUP BY
+        nsi.id
+    limit #{pageNum},#{pageSize}
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Long">
+        SELECT
+            count(0)
+        FROM
+        nstr_single_instrument nsi
+        LEFT JOIN nstr_institution ni ON nsi.ins = ni.ins_id
+        LEFT JOIN nstr_location_code nlc ON nsi.location_code = nlc.location_code
+        LEFT jOIN nstr_nation nn ON nsi.nation = nn.nation_code
+        LEFT JOIN nstr_category nc ON nsi.instr_category = nc.categoryId
+        LEFT JOIN nstr_global_type ngt2 ON nsi.instru_type = ngt2.id
+        LEFT JOIN nstr_global_type ngt5 ON nsi.instr_source = ngt5.id
+        LEFT JOIN nstr_attachment na ON nsi.image = na.attach_id
+        WHERE
+        nsi.worth >= 50
+        AND nsi.audit_status = 1
+        AND na.attach_url != ''
+    </select>
+
+
+</mapper>
